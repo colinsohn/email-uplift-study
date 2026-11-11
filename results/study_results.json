@@ -1,0 +1,1105 @@
+{
+  "dataset": {
+    "path": "data/hillstrom-email-experiment.csv",
+    "sha256": "27bab8c5d3669f26ec08ebb50a0a78317542f29501156f2e2af6781fab4cd7e2",
+    "total_rows": 64000,
+    "splits": {
+      "train_rows": 32000,
+      "val_rows": 16000,
+      "test_rows": 16000,
+      "seed": 42
+    },
+    "documented_assignment_probabilities": {
+      "No E-Mail": 0.3333333333333333,
+      "Mens E-Mail": 0.3333333333333333,
+      "Womens E-Mail": 0.3333333333333333
+    },
+    "pre_campaign_features": [
+      "recency",
+      "history_segment",
+      "history",
+      "mens",
+      "womens",
+      "zip_code",
+      "newbie",
+      "channel"
+    ],
+    "excluded_columns": [
+      "segment",
+      "visit",
+      "conversion",
+      "spend"
+    ]
+  },
+  "duckdb_audit": {
+    "arm_sizes": [
+      {
+        "segment": "Mens E-Mail",
+        "n_customers": 21307,
+        "observed_prop": 0.332922,
+        "documented_prop": 0.333333,
+        "srm_chisq_stat": 0.202531,
+        "visit_rate": 0.182757,
+        "conversion_rate": 0.012531,
+        "avg_spend": 1.422617
+      },
+      {
+        "segment": "No E-Mail",
+        "n_customers": 21306,
+        "observed_prop": 0.332906,
+        "documented_prop": 0.333333,
+        "srm_chisq_stat": 0.202531,
+        "visit_rate": 0.106167,
+        "conversion_rate": 0.005726,
+        "avg_spend": 0.652789
+      },
+      {
+        "segment": "Womens E-Mail",
+        "n_customers": 21387,
+        "observed_prop": 0.334172,
+        "documented_prop": 0.333333,
+        "srm_chisq_stat": 0.202531,
+        "visit_rate": 0.1514,
+        "conversion_rate": 0.008837,
+        "avg_spend": 1.077202
+      }
+    ],
+    "missing_values": {
+      "total_rows": 64000,
+      "null_recency": 0.0,
+      "null_history_segment": 0.0,
+      "null_history": 0.0,
+      "null_mens": 0.0,
+      "null_womens": 0.0,
+      "null_zip_code": 0.0,
+      "null_newbie": 0.0,
+      "null_channel": 0.0,
+      "null_segment": 0.0,
+      "null_visit": 0.0,
+      "null_conversion": 0.0,
+      "null_spend": 0.0,
+      "invalid_range_rows": 0.0
+    },
+    "pre_campaign_balance": [
+      {
+        "feature": "channel = Multichannel",
+        "mean_no_email": 0.1223,
+        "mean_mens_email": 0.1209,
+        "mean_womens_email": 0.1206,
+        "smd_mens_vs_control": -0.0042,
+        "smd_womens_vs_control": -0.0053
+      },
+      {
+        "feature": "channel = Phone",
+        "mean_no_email": 0.4378,
+        "mean_mens_email": 0.4337,
+        "mean_womens_email": 0.442,
+        "smd_mens_vs_control": -0.0083,
+        "smd_womens_vs_control": 0.0086
+      },
+      {
+        "feature": "channel = Web",
+        "mean_no_email": 0.4399,
+        "mean_mens_email": 0.4454,
+        "mean_womens_email": 0.4374,
+        "smd_mens_vs_control": 0.011,
+        "smd_womens_vs_control": -0.0051
+      },
+      {
+        "feature": "history ($ prior spend)",
+        "mean_no_email": 240.8827,
+        "mean_mens_email": 242.8359,
+        "mean_womens_email": 242.5366,
+        "smd_mens_vs_control": 0.0076,
+        "smd_womens_vs_control": 0.0065
+      },
+      {
+        "feature": "mens (prior purchase 0/1)",
+        "mean_no_email": 0.5532,
+        "mean_mens_email": 0.5509,
+        "mean_womens_email": 0.5489,
+        "smd_mens_vs_control": -0.0046,
+        "smd_womens_vs_control": -0.0086
+      },
+      {
+        "feature": "newbie (new customer 0/1)",
+        "mean_no_email": 0.502,
+        "mean_mens_email": 0.5015,
+        "mean_womens_email": 0.5032,
+        "smd_mens_vs_control": -0.0009,
+        "smd_womens_vs_control": 0.0026
+      },
+      {
+        "feature": "recency (months)",
+        "mean_no_email": 5.7497,
+        "mean_mens_email": 5.7736,
+        "mean_womens_email": 5.7678,
+        "smd_mens_vs_control": 0.0068,
+        "smd_womens_vs_control": 0.0052
+      },
+      {
+        "feature": "womens (prior purchase 0/1)",
+        "mean_no_email": 0.5476,
+        "mean_mens_email": 0.5514,
+        "mean_womens_email": 0.5501,
+        "smd_mens_vs_control": 0.0076,
+        "smd_womens_vs_control": 0.0049
+      },
+      {
+        "feature": "zip_code = Rural",
+        "mean_no_email": 0.1473,
+        "mean_mens_email": 0.1522,
+        "mean_womens_email": 0.1487,
+        "smd_mens_vs_control": 0.0137,
+        "smd_womens_vs_control": 0.004
+      },
+      {
+        "feature": "zip_code = Surburban",
+        "mean_no_email": 0.4518,
+        "mean_mens_email": 0.4459,
+        "mean_womens_email": 0.4512,
+        "smd_mens_vs_control": -0.0117,
+        "smd_womens_vs_control": -0.0011
+      },
+      {
+        "feature": "zip_code = Urban",
+        "mean_no_email": 0.4009,
+        "mean_mens_email": 0.4019,
+        "mean_womens_email": 0.4001,
+        "smd_mens_vs_control": 0.002,
+        "smd_womens_vs_control": -0.0018
+      }
+    ],
+    "experiment_ate_summary": [
+      {
+        "comparison_arm": "No E-Mail",
+        "n_arm": 21306,
+        "n_control": 21306,
+        "visits_per_1k": 106.17,
+        "ate_visits_per_1k": 0.0,
+        "ate_visits_ci95_low": 0.0,
+        "ate_visits_ci95_high": 0.0,
+        "conversions_per_1k": 5.73,
+        "ate_conversions_per_1k": 0.0,
+        "ate_conversions_ci95_low": 0.0,
+        "ate_conversions_ci95_high": 0.0,
+        "spend_per_1k": 652.79,
+        "ate_spend_per_1k": 0.0,
+        "ate_spend_ci95_low": 0.0,
+        "ate_spend_ci95_high": 0.0
+      },
+      {
+        "comparison_arm": "Mens E-Mail",
+        "n_arm": 21307,
+        "n_control": 21306,
+        "visits_per_1k": 182.76,
+        "ate_visits_per_1k": 76.59,
+        "ate_visits_ci95_low": 69.95,
+        "ate_visits_ci95_high": 83.23,
+        "conversions_per_1k": 12.53,
+        "ate_conversions_per_1k": 6.81,
+        "ate_conversions_ci95_low": 5.0,
+        "ate_conversions_ci95_high": 8.61,
+        "spend_per_1k": 1422.62,
+        "ate_spend_per_1k": 769.83,
+        "ate_spend_ci95_low": 485.15,
+        "ate_spend_ci95_high": 1054.51
+      },
+      {
+        "comparison_arm": "Womens E-Mail",
+        "n_arm": 21387,
+        "n_control": 21306,
+        "visits_per_1k": 151.4,
+        "ate_visits_per_1k": 45.23,
+        "ate_visits_ci95_low": 38.89,
+        "ate_visits_ci95_high": 51.57,
+        "conversions_per_1k": 8.84,
+        "ate_conversions_per_1k": 3.11,
+        "ate_conversions_ci95_low": 1.5,
+        "ate_conversions_ci95_high": 4.72,
+        "spend_per_1k": 1077.2,
+        "ate_spend_per_1k": 424.41,
+        "ate_spend_ci95_low": 168.96,
+        "ate_spend_ci95_high": 679.86
+      },
+      {
+        "comparison_arm": "Any E-Mail (Pooled)",
+        "n_arm": 42694,
+        "n_control": 21306,
+        "visits_per_1k": 167.05,
+        "ate_visits_per_1k": 60.88,
+        "ate_visits_ci95_low": 55.44,
+        "ate_visits_ci95_high": 66.33,
+        "conversions_per_1k": 10.68,
+        "ate_conversions_per_1k": 4.95,
+        "ate_conversions_ci95_low": 3.55,
+        "ate_conversions_ci95_high": 6.36,
+        "spend_per_1k": 1249.59,
+        "ate_spend_per_1k": 596.8,
+        "ate_spend_ci95_low": 376.19,
+        "ate_spend_ci95_high": 817.4
+      }
+    ]
+  },
+  "validation_tuning": {
+    "simple_recency_rule": {
+      "selected_email_mode": "mens_default",
+      "candidates": [
+        {
+          "email_mode": "category_affinity",
+          "val_incremental_visits_per_1k": 20.25,
+          "val_ci95_low": 12.2,
+          "val_ci95_high": 28.3
+        },
+        {
+          "email_mode": "mens_default",
+          "val_incremental_visits_per_1k": 22.31,
+          "val_ci95_low": 14.18,
+          "val_ci95_high": 30.45
+        }
+      ]
+    },
+    "regularized_logistic": {
+      "selected_C": 0.01,
+      "candidates": [
+        {
+          "C": 0.005,
+          "val_incremental_visits_per_1k": 22.31,
+          "val_ci95_low": 14.06,
+          "val_ci95_high": 30.56
+        },
+        {
+          "C": 0.01,
+          "val_incremental_visits_per_1k": 24.19,
+          "val_ci95_low": 16.05,
+          "val_ci95_high": 32.32
+        },
+        {
+          "C": 0.05,
+          "val_incremental_visits_per_1k": 23.81,
+          "val_ci95_low": 15.85,
+          "val_ci95_high": 31.78
+        },
+        {
+          "C": 0.1,
+          "val_incremental_visits_per_1k": 23.62,
+          "val_ci95_low": 15.75,
+          "val_ci95_high": 31.5
+        },
+        {
+          "C": 0.5,
+          "val_incremental_visits_per_1k": 21.94,
+          "val_ci95_low": 14.16,
+          "val_ci95_high": 29.72
+        },
+        {
+          "C": 1.0,
+          "val_incremental_visits_per_1k": 23.06,
+          "val_ci95_low": 15.28,
+          "val_ci95_high": 30.84
+        },
+        {
+          "C": 5.0,
+          "val_incremental_visits_per_1k": 21.75,
+          "val_ci95_low": 13.91,
+          "val_ci95_high": 29.59
+        }
+      ]
+    },
+    "flexible_hist_gbdt": {
+      "selected_params": {
+        "max_depth": 3,
+        "min_samples_leaf": 200,
+        "l2_regularization": 1.0,
+        "learning_rate": 0.05,
+        "max_iter": 100
+      },
+      "candidates": [
+        {
+          "max_depth": 2,
+          "min_samples_leaf": 50,
+          "l2_regularization": 1.0,
+          "learning_rate": 0.05,
+          "max_iter": 100,
+          "val_incremental_visits_per_1k": 20.25,
+          "val_ci95_low": 12.87,
+          "val_ci95_high": 27.63
+        },
+        {
+          "max_depth": 2,
+          "min_samples_leaf": 200,
+          "l2_regularization": 1.0,
+          "learning_rate": 0.05,
+          "max_iter": 100,
+          "val_incremental_visits_per_1k": 18.19,
+          "val_ci95_low": 10.74,
+          "val_ci95_high": 25.63
+        },
+        {
+          "max_depth": 3,
+          "min_samples_leaf": 50,
+          "l2_regularization": 1.0,
+          "learning_rate": 0.05,
+          "max_iter": 100,
+          "val_incremental_visits_per_1k": 18.0,
+          "val_ci95_low": 10.17,
+          "val_ci95_high": 25.83
+        },
+        {
+          "max_depth": 3,
+          "min_samples_leaf": 200,
+          "l2_regularization": 1.0,
+          "learning_rate": 0.05,
+          "max_iter": 100,
+          "val_incremental_visits_per_1k": 22.88,
+          "val_ci95_low": 15.09,
+          "val_ci95_high": 30.66
+        },
+        {
+          "max_depth": 6,
+          "min_samples_leaf": 50,
+          "l2_regularization": 1.0,
+          "learning_rate": 0.05,
+          "max_iter": 100,
+          "val_incremental_visits_per_1k": 13.69,
+          "val_ci95_low": 6.19,
+          "val_ci95_high": 21.19
+        },
+        {
+          "max_depth": 6,
+          "min_samples_leaf": 200,
+          "l2_regularization": 1.0,
+          "learning_rate": 0.05,
+          "max_iter": 100,
+          "val_incremental_visits_per_1k": 12.94,
+          "val_ci95_low": 5.36,
+          "val_ci95_high": 20.51
+        }
+      ]
+    }
+  },
+  "held_out_test_25pct_budget": [
+    {
+      "policy": "no_email",
+      "label": "No E-Mail (0% Contact Baseline)",
+      "composition": {
+        "n_eligible": 16000,
+        "n_contacted": 0,
+        "contact_rate": 0.0,
+        "mens_email_share_of_eligible": 0.0,
+        "womens_email_share_of_eligible": 0.0,
+        "no_email_share_of_eligible": 1.0,
+        "contacted_mean_recency": null,
+        "contacted_mean_history_spend": null,
+        "contacted_both_categories_share": null
+      },
+      "visits_per_1k": {
+        "estimate": 106.125,
+        "se": 4.381293188838532,
+        "ci95_low": 97.53782314416583,
+        "ci95_high": 114.71217685583417
+      },
+      "incremental_visits_vs_no_email": {
+        "diff": 0.0,
+        "se": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "disagreement_rate": 0.0
+      },
+      "incremental_visits_vs_best_simple": {
+        "diff": -21.0,
+        "se": 4.130307641698853,
+        "ci95_low": -29.09525422280032,
+        "ci95_high": -12.90474577719968,
+        "disagreement_rate": 0.25
+      },
+      "conversions_per_1k": {
+        "estimate": 6.0,
+        "se": 1.0596320947673379,
+        "ci95_low": 3.923159257393284,
+        "ci95_high": 8.076840742606716
+      },
+      "incremental_conversions_vs_no_email": {
+        "diff": 0.0,
+        "se": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "disagreement_rate": 0.0
+      },
+      "incremental_conversions_vs_best_simple": {
+        "diff": -1.875,
+        "se": 1.0269049039675544,
+        "ci95_low": -3.8876966273239697,
+        "ci95_high": 0.1376966273239697,
+        "disagreement_rate": 0.25
+      },
+      "spend_per_1k": {
+        "estimate": 639.26625,
+        "se": 152.183306011562,
+        "ci95_low": 340.9924511691006,
+        "ci95_high": 937.5400488308994
+      },
+      "incremental_spend_vs_no_email": {
+        "diff": 0.0,
+        "se": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "disagreement_rate": 0.0
+      },
+      "incremental_spend_vs_best_simple": {
+        "diff": -399.118125,
+        "se": 211.1949026174398,
+        "ci95_low": -813.052527848626,
+        "ci95_high": 14.816277848625987,
+        "disagreement_rate": 0.25
+      }
+    },
+    {
+      "policy": "random_targeting",
+      "label": "Random Targeting (25% Budget)",
+      "composition": {
+        "n_eligible": 16000,
+        "n_contacted": 4000,
+        "contact_rate": 0.25,
+        "mens_email_share_of_eligible": 0.1243,
+        "womens_email_share_of_eligible": 0.1257,
+        "no_email_share_of_eligible": 0.75,
+        "contacted_mean_recency": 5.74,
+        "contacted_mean_history_spend": 238.77,
+        "contacted_both_categories_share": 0.0907
+      },
+      "visits_per_1k": {
+        "estimate": 120.75,
+        "se": 4.661619676933735,
+        "ci95_low": 111.61339332358664,
+        "ci95_high": 129.88660667641335
+      },
+      "incremental_visits_vs_no_email": {
+        "diff": 14.625,
+        "se": 3.6629438854979433,
+        "ci95_low": 7.445761907032824,
+        "ci95_high": 21.804238092967175,
+        "disagreement_rate": 0.25
+      },
+      "incremental_visits_vs_best_simple": {
+        "diff": -6.375,
+        "se": 4.867674326798372,
+        "ci95_low": -15.915466368995062,
+        "ci95_high": 3.1654663689950624,
+        "disagreement_rate": 0.4054375
+      },
+      "conversions_per_1k": {
+        "estimate": 6.1875,
+        "se": 1.076027784246952,
+        "ci95_low": 4.078524296511539,
+        "ci95_high": 8.296475703488461
+      },
+      "incremental_conversions_vs_no_email": {
+        "diff": 0.1875,
+        "se": 0.8592585164310295,
+        "ci95_low": -1.496615745614136,
+        "ci95_high": 1.871615745614136,
+        "disagreement_rate": 0.25
+      },
+      "incremental_conversions_vs_best_simple": {
+        "diff": -1.6875,
+        "se": 1.1708977150355906,
+        "ci95_low": -3.982417351050001,
+        "ci95_high": 0.6074173510500009,
+        "disagreement_rate": 0.4054375
+      },
+      "spend_per_1k": {
+        "estimate": 722.8275,
+        "se": 176.72012002670812,
+        "ci95_low": 376.46242940405654,
+        "ci95_high": 1069.1925705959434
+      },
+      "incremental_spend_vs_no_email": {
+        "diff": 83.56125,
+        "se": 152.72549037824567,
+        "ci95_low": -215.77521066258006,
+        "ci95_high": 382.89771066258004,
+        "disagreement_rate": 0.25
+      },
+      "incremental_spend_vs_best_simple": {
+        "diff": -315.556875,
+        "se": 207.88840778016876,
+        "ci95_low": -723.0106670525072,
+        "ci95_high": 91.89691705250715,
+        "disagreement_rate": 0.4054375
+      }
+    },
+    {
+      "policy": "simple_recency_rule",
+      "label": "Simple Recency Rule (mens_default)",
+      "composition": {
+        "n_eligible": 16000,
+        "n_contacted": 4000,
+        "contact_rate": 0.25,
+        "mens_email_share_of_eligible": 0.25,
+        "womens_email_share_of_eligible": 0.0,
+        "no_email_share_of_eligible": 0.75,
+        "contacted_mean_recency": 1.44,
+        "contacted_mean_history_spend": 348.03,
+        "contacted_both_categories_share": 0.1505
+      },
+      "visits_per_1k": {
+        "estimate": 127.125,
+        "se": 4.777794088877181,
+        "ci95_low": 117.76069566025237,
+        "ci95_high": 136.48930433974763
+      },
+      "incremental_visits_vs_no_email": {
+        "diff": 21.0,
+        "se": 4.130307641698853,
+        "ci95_low": 12.90474577719968,
+        "ci95_high": 29.09525422280032,
+        "disagreement_rate": 0.25
+      },
+      "incremental_visits_vs_best_simple": {
+        "diff": 0.0,
+        "se": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "disagreement_rate": 0.0
+      },
+      "conversions_per_1k": {
+        "estimate": 7.875,
+        "se": 1.213580888156309,
+        "ci95_low": 5.496425166887503,
+        "ci95_high": 10.253574833112497
+      },
+      "incremental_conversions_vs_no_email": {
+        "diff": 1.875,
+        "se": 1.0269049039675544,
+        "ci95_low": -0.1376966273239697,
+        "ci95_high": 3.8876966273239697,
+        "disagreement_rate": 0.25
+      },
+      "incremental_conversions_vs_best_simple": {
+        "diff": 0.0,
+        "se": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "disagreement_rate": 0.0
+      },
+      "spend_per_1k": {
+        "estimate": 1038.384375,
+        "se": 211.99673103279721,
+        "ci95_low": 622.8784173354927,
+        "ci95_high": 1453.8903326645075
+      },
+      "incremental_spend_vs_no_email": {
+        "diff": 399.118125,
+        "se": 211.1949026174398,
+        "ci95_low": -14.816277848625987,
+        "ci95_high": 813.052527848626,
+        "disagreement_rate": 0.25
+      },
+      "incremental_spend_vs_best_simple": {
+        "diff": 0.0,
+        "se": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "disagreement_rate": 0.0
+      }
+    },
+    {
+      "policy": "recency_category_affinity",
+      "label": "Simple Recency + Category Match Rule",
+      "composition": {
+        "n_eligible": 16000,
+        "n_contacted": 4000,
+        "contact_rate": 0.25,
+        "mens_email_share_of_eligible": 0.1442,
+        "womens_email_share_of_eligible": 0.1058,
+        "no_email_share_of_eligible": 0.75,
+        "contacted_mean_recency": 1.44,
+        "contacted_mean_history_spend": 348.03,
+        "contacted_both_categories_share": 0.1505
+      },
+      "visits_per_1k": {
+        "estimate": 125.0625,
+        "se": 4.740578446889163,
+        "ci95_low": 115.77113697821042,
+        "ci95_high": 134.35386302178958
+      },
+      "incremental_visits_vs_no_email": {
+        "diff": 18.9375,
+        "se": 4.083851957256155,
+        "ci95_low": 10.933297245584527,
+        "ci95_high": 26.941702754415473,
+        "disagreement_rate": 0.25
+      },
+      "incremental_visits_vs_best_simple": {
+        "diff": -2.0625,
+        "se": 2.837431685436668,
+        "ci95_low": -7.623763912048653,
+        "ci95_high": 3.498763912048653,
+        "disagreement_rate": 0.1058125
+      },
+      "conversions_per_1k": {
+        "estimate": 7.6875,
+        "se": 1.1990840292244729,
+        "ci95_low": 5.337338488282859,
+        "ci95_high": 10.03766151171714
+      },
+      "incremental_conversions_vs_no_email": {
+        "diff": 1.6875,
+        "se": 1.0096618171674812,
+        "ci95_low": -0.2914007982135278,
+        "ci95_high": 3.6664007982135276,
+        "disagreement_rate": 0.25
+      },
+      "incremental_conversions_vs_best_simple": {
+        "diff": -0.1875,
+        "se": 0.7262055588065115,
+        "ci95_low": -1.6108367406335469,
+        "ci95_high": 1.2358367406335469,
+        "disagreement_rate": 0.1058125
+      },
+      "spend_per_1k": {
+        "estimate": 1017.219375,
+        "se": 203.66696874064266,
+        "ci95_low": 618.0394514278954,
+        "ci95_high": 1416.3992985721047
+      },
+      "incremental_spend_vs_no_email": {
+        "diff": 377.953125,
+        "se": 202.8280446943092,
+        "ci95_low": -19.582537655526437,
+        "ci95_high": 775.4887876555265,
+        "disagreement_rate": 0.25
+      },
+      "incremental_spend_vs_best_simple": {
+        "diff": -21.165,
+        "se": 105.58604411598009,
+        "ci95_low": -228.10984373737824,
+        "ci95_high": 185.77984373737826,
+        "disagreement_rate": 0.1058125
+      }
+    },
+    {
+      "policy": "regularized_logistic",
+      "label": "Regularized Logistic T-Learner (C=0.01)",
+      "composition": {
+        "n_eligible": 16000,
+        "n_contacted": 4000,
+        "contact_rate": 0.25,
+        "mens_email_share_of_eligible": 0.176,
+        "womens_email_share_of_eligible": 0.074,
+        "no_email_share_of_eligible": 0.75,
+        "contacted_mean_recency": 4.64,
+        "contacted_mean_history_spend": 428.04,
+        "contacted_both_categories_share": 0.3412
+      },
+      "visits_per_1k": {
+        "estimate": 129.75,
+        "se": 4.82466459254184,
+        "ci95_low": 120.29383116113237,
+        "ci95_high": 139.20616883886763
+      },
+      "incremental_visits_vs_no_email": {
+        "diff": 23.625,
+        "se": 4.120898272658323,
+        "ci95_low": 15.548187801636367,
+        "ci95_high": 31.701812198363633,
+        "disagreement_rate": 0.25
+      },
+      "incremental_visits_vs_best_simple": {
+        "diff": 2.625,
+        "se": 4.324796333631847,
+        "ci95_low": -5.851445054389291,
+        "ci95_high": 11.101445054389291,
+        "disagreement_rate": 0.2940625
+      },
+      "conversions_per_1k": {
+        "estimate": 7.6875,
+        "se": 1.1990840292244729,
+        "ci95_low": 5.337338488282859,
+        "ci95_high": 10.03766151171714
+      },
+      "incremental_conversions_vs_no_email": {
+        "diff": 1.6875,
+        "se": 1.0439031946746142,
+        "ci95_low": -0.35851266490854883,
+        "ci95_high": 3.733512664908549,
+        "disagreement_rate": 0.25
+      },
+      "incremental_conversions_vs_best_simple": {
+        "diff": -0.1875,
+        "se": 1.0771381373318865,
+        "ci95_low": -2.298651955545056,
+        "ci95_high": 1.923651955545056,
+        "disagreement_rate": 0.2940625
+      },
+      "spend_per_1k": {
+        "estimate": 796.591875,
+        "se": 181.91245765403266,
+        "ci95_low": 440.0500096589282,
+        "ci95_high": 1153.1337403410716
+      },
+      "incremental_spend_vs_no_email": {
+        "diff": 157.325625,
+        "se": 166.92539981054603,
+        "ci95_low": -169.84214673361936,
+        "ci95_high": 484.49339673361936,
+        "disagreement_rate": 0.25
+      },
+      "incremental_spend_vs_best_simple": {
+        "diff": -241.7925,
+        "se": 229.37584187533244,
+        "ci95_low": -691.3608889992059,
+        "ci95_high": 207.775888999206,
+        "disagreement_rate": 0.2940625
+      }
+    },
+    {
+      "policy": "flexible_hist_gbdt",
+      "label": "Flexible HistGBDT T-Learner (depth=3, leaf=200)",
+      "composition": {
+        "n_eligible": 16000,
+        "n_contacted": 4000,
+        "contact_rate": 0.25,
+        "mens_email_share_of_eligible": 0.1974,
+        "womens_email_share_of_eligible": 0.0526,
+        "no_email_share_of_eligible": 0.75,
+        "contacted_mean_recency": 4.62,
+        "contacted_mean_history_spend": 393.91,
+        "contacted_both_categories_share": 0.2512
+      },
+      "visits_per_1k": {
+        "estimate": 130.125,
+        "se": 4.831315982661481,
+        "ci95_low": 120.65579467605076,
+        "ci95_high": 139.59420532394924
+      },
+      "incremental_visits_vs_no_email": {
+        "diff": 24.0,
+        "se": 4.017074004200346,
+        "ci95_low": 16.12667962853522,
+        "ci95_high": 31.87332037146478,
+        "disagreement_rate": 0.25
+      },
+      "incremental_visits_vs_best_simple": {
+        "diff": 3.0,
+        "se": 4.562152817190088,
+        "ci95_low": -5.941655213660518,
+        "ci95_high": 11.941655213660518,
+        "disagreement_rate": 0.3341875
+      },
+      "conversions_per_1k": {
+        "estimate": 8.25,
+        "se": 1.242061799426502,
+        "ci95_low": 5.8156036065510435,
+        "ci95_high": 10.684396393448957
+      },
+      "incremental_conversions_vs_no_email": {
+        "diff": 2.25,
+        "se": 1.0931929315880635,
+        "ci95_low": 0.10738122593363641,
+        "ci95_high": 4.392618774066364,
+        "disagreement_rate": 0.25
+      },
+      "incremental_conversions_vs_best_simple": {
+        "diff": 0.375,
+        "se": 1.1858874763259188,
+        "ci95_low": -1.9492967433158968,
+        "ci95_high": 2.6992967433158968,
+        "disagreement_rate": 0.3341875
+      },
+      "spend_per_1k": {
+        "estimate": 1006.22625,
+        "se": 211.6884166288164,
+        "ci95_low": 591.3245774632101,
+        "ci95_high": 1421.12792253679
+      },
+      "incremental_spend_vs_no_email": {
+        "diff": 366.96,
+        "se": 191.7442887542824,
+        "ci95_low": -8.851900199642046,
+        "ci95_high": 742.771900199642,
+        "disagreement_rate": 0.25
+      },
+      "incremental_spend_vs_best_simple": {
+        "diff": -32.158125,
+        "se": 220.10176005529607,
+        "ci95_low": -463.54964764225696,
+        "ci95_high": 399.233397642257,
+        "disagreement_rate": 0.3341875
+      }
+    }
+  ],
+  "budget_sensitivity": [
+    {
+      "budget": 0.1,
+      "budget_pct": 10,
+      "policy": "random_targeting",
+      "label": "Random Targeting (25% Budget)",
+      "visits_per_1k": 114.0,
+      "inc_visits_vs_no_email": 7.88,
+      "inc_visits_vs_no_email_ci95": [
+        3.26,
+        12.49
+      ],
+      "inc_visits_vs_best_simple": -2.44,
+      "inc_visits_vs_best_simple_ci95": [
+        -9.24,
+        4.37
+      ],
+      "disagreement_with_best_simple": 0.1847
+    },
+    {
+      "budget": 0.1,
+      "budget_pct": 10,
+      "policy": "simple_recency_rule",
+      "label": "Simple Recency Rule (mens_default)",
+      "visits_per_1k": 116.44,
+      "inc_visits_vs_no_email": 10.31,
+      "inc_visits_vs_no_email_ci95": [
+        4.85,
+        15.77
+      ],
+      "inc_visits_vs_best_simple": 0.0,
+      "inc_visits_vs_best_simple_ci95": [
+        0.0,
+        0.0
+      ],
+      "disagreement_with_best_simple": 0.0
+    },
+    {
+      "budget": 0.1,
+      "budget_pct": 10,
+      "policy": "recency_category_affinity",
+      "label": "Simple Recency + Category Match Rule",
+      "visits_per_1k": 116.25,
+      "inc_visits_vs_no_email": 10.12,
+      "inc_visits_vs_no_email_ci95": [
+        4.68,
+        15.57
+      ],
+      "inc_visits_vs_best_simple": -0.19,
+      "inc_visits_vs_best_simple_ci95": [
+        -3.81,
+        3.43
+      ],
+      "disagreement_with_best_simple": 0.0394
+    },
+    {
+      "budget": 0.1,
+      "budget_pct": 10,
+      "policy": "regularized_logistic",
+      "label": "Regularized Logistic T-Learner (C=0.01)",
+      "visits_per_1k": 118.31,
+      "inc_visits_vs_no_email": 12.19,
+      "inc_visits_vs_no_email_ci95": [
+        6.8,
+        17.57
+      ],
+      "inc_visits_vs_best_simple": 1.88,
+      "inc_visits_vs_best_simple_ci95": [
+        -4.51,
+        8.26
+      ],
+      "disagreement_with_best_simple": 0.1417
+    },
+    {
+      "budget": 0.1,
+      "budget_pct": 10,
+      "policy": "flexible_hist_gbdt",
+      "label": "Flexible HistGBDT T-Learner (depth=3, leaf=200)",
+      "visits_per_1k": 115.5,
+      "inc_visits_vs_no_email": 9.38,
+      "inc_visits_vs_no_email_ci95": [
+        3.98,
+        14.77
+      ],
+      "inc_visits_vs_best_simple": -0.94,
+      "inc_visits_vs_best_simple_ci95": [
+        -7.54,
+        5.67
+      ],
+      "disagreement_with_best_simple": 0.1544
+    },
+    {
+      "budget": 0.25,
+      "budget_pct": 25,
+      "policy": "random_targeting",
+      "label": "Random Targeting (25% Budget)",
+      "visits_per_1k": 120.75,
+      "inc_visits_vs_no_email": 14.62,
+      "inc_visits_vs_no_email_ci95": [
+        7.45,
+        21.8
+      ],
+      "inc_visits_vs_best_simple": -6.38,
+      "inc_visits_vs_best_simple_ci95": [
+        -15.92,
+        3.17
+      ],
+      "disagreement_with_best_simple": 0.4054
+    },
+    {
+      "budget": 0.25,
+      "budget_pct": 25,
+      "policy": "simple_recency_rule",
+      "label": "Simple Recency Rule (mens_default)",
+      "visits_per_1k": 127.12,
+      "inc_visits_vs_no_email": 21.0,
+      "inc_visits_vs_no_email_ci95": [
+        12.9,
+        29.1
+      ],
+      "inc_visits_vs_best_simple": 0.0,
+      "inc_visits_vs_best_simple_ci95": [
+        0.0,
+        0.0
+      ],
+      "disagreement_with_best_simple": 0.0
+    },
+    {
+      "budget": 0.25,
+      "budget_pct": 25,
+      "policy": "recency_category_affinity",
+      "label": "Simple Recency + Category Match Rule",
+      "visits_per_1k": 125.06,
+      "inc_visits_vs_no_email": 18.94,
+      "inc_visits_vs_no_email_ci95": [
+        10.93,
+        26.94
+      ],
+      "inc_visits_vs_best_simple": -2.06,
+      "inc_visits_vs_best_simple_ci95": [
+        -7.62,
+        3.5
+      ],
+      "disagreement_with_best_simple": 0.1058
+    },
+    {
+      "budget": 0.25,
+      "budget_pct": 25,
+      "policy": "regularized_logistic",
+      "label": "Regularized Logistic T-Learner (C=0.01)",
+      "visits_per_1k": 129.75,
+      "inc_visits_vs_no_email": 23.62,
+      "inc_visits_vs_no_email_ci95": [
+        15.55,
+        31.7
+      ],
+      "inc_visits_vs_best_simple": 2.62,
+      "inc_visits_vs_best_simple_ci95": [
+        -5.85,
+        11.1
+      ],
+      "disagreement_with_best_simple": 0.2941
+    },
+    {
+      "budget": 0.25,
+      "budget_pct": 25,
+      "policy": "flexible_hist_gbdt",
+      "label": "Flexible HistGBDT T-Learner (depth=3, leaf=200)",
+      "visits_per_1k": 130.12,
+      "inc_visits_vs_no_email": 24.0,
+      "inc_visits_vs_no_email_ci95": [
+        16.13,
+        31.87
+      ],
+      "inc_visits_vs_best_simple": 3.0,
+      "inc_visits_vs_best_simple_ci95": [
+        -5.94,
+        11.94
+      ],
+      "disagreement_with_best_simple": 0.3342
+    },
+    {
+      "budget": 0.5,
+      "budget_pct": 50,
+      "policy": "random_targeting",
+      "label": "Random Targeting (25% Budget)",
+      "visits_per_1k": 144.56,
+      "inc_visits_vs_no_email": 38.44,
+      "inc_visits_vs_no_email_ci95": [
+        28.2,
+        48.68
+      ],
+      "inc_visits_vs_best_simple": -1.12,
+      "inc_visits_vs_best_simple_ci95": [
+        -12.8,
+        10.55
+      ],
+      "disagreement_with_best_simple": 0.6243
+    },
+    {
+      "budget": 0.5,
+      "budget_pct": 50,
+      "policy": "simple_recency_rule",
+      "label": "Simple Recency Rule (mens_default)",
+      "visits_per_1k": 145.69,
+      "inc_visits_vs_no_email": 39.56,
+      "inc_visits_vs_no_email_ci95": [
+        28.62,
+        50.5
+      ],
+      "inc_visits_vs_best_simple": 0.0,
+      "inc_visits_vs_best_simple_ci95": [
+        0.0,
+        0.0
+      ],
+      "disagreement_with_best_simple": 0.0
+    },
+    {
+      "budget": 0.5,
+      "budget_pct": 50,
+      "policy": "recency_category_affinity",
+      "label": "Simple Recency + Category Match Rule",
+      "visits_per_1k": 148.12,
+      "inc_visits_vs_no_email": 42.0,
+      "inc_visits_vs_no_email_ci95": [
+        30.98,
+        53.02
+      ],
+      "inc_visits_vs_best_simple": 2.44,
+      "inc_visits_vs_best_simple_ci95": [
+        -5.12,
+        10.0
+      ],
+      "disagreement_with_best_simple": 0.2154
+    },
+    {
+      "budget": 0.5,
+      "budget_pct": 50,
+      "policy": "regularized_logistic",
+      "label": "Regularized Logistic T-Learner (C=0.01)",
+      "visits_per_1k": 153.19,
+      "inc_visits_vs_no_email": 47.06,
+      "inc_visits_vs_no_email_ci95": [
+        36.3,
+        57.82
+      ],
+      "inc_visits_vs_best_simple": 7.5,
+      "inc_visits_vs_best_simple_ci95": [
+        -2.47,
+        17.47
+      ],
+      "disagreement_with_best_simple": 0.4469
+    },
+    {
+      "budget": 0.5,
+      "budget_pct": 50,
+      "policy": "flexible_hist_gbdt",
+      "label": "Flexible HistGBDT T-Learner (depth=3, leaf=200)",
+      "visits_per_1k": 149.62,
+      "inc_visits_vs_no_email": 43.5,
+      "inc_visits_vs_no_email_ci95": [
+        33.02,
+        53.98
+      ],
+      "inc_visits_vs_best_simple": 3.94,
+      "inc_visits_vs_best_simple_ci95": [
+        -5.85,
+        13.72
+      ],
+      "disagreement_with_best_simple": 0.4649
+    }
+  ]
+}

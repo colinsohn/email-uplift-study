@@ -1,0 +1,16 @@
+# Raw experiment CSV is kept out of Git per repository policy
+data/*.csv
+!data/.gitkeep
+
+# Python / build / test artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.venv/
+venv/
+.DS_Store
