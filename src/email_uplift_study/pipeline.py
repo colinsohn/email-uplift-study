@@ -564,6 +564,7 @@ def run_full_study(
         name: frozen.predict_actions(name, test_df, budget=0.25) for name in policy_names
     }
     no_email_25 = actions_25["no_email"]
+    random_25 = actions_25["random_targeting"]
     best_simple_25 = actions_25["simple_recency_rule"]
 
     primary_25_results: list[dict[str, Any]] = []
@@ -572,6 +573,9 @@ def run_full_study(
         visit_abs = evaluate_policy_ipw(test_df, acts, outcome="visit", scale=1000.0)
         visit_vs_none = compare_policies_paired(
             test_df, acts, no_email_25, outcome="visit", scale=1000.0
+        )
+        visit_vs_random = compare_policies_paired(
+            test_df, acts, random_25, outcome="visit", scale=1000.0
         )
         visit_vs_simple = compare_policies_paired(
             test_df, acts, best_simple_25, outcome="visit", scale=1000.0
@@ -600,6 +604,7 @@ def run_full_study(
                 "composition": summarize_targeting_composition(test_df, acts),
                 "visits_per_1k": visit_abs,
                 "incremental_visits_vs_no_email": visit_vs_none,
+                "incremental_visits_vs_random": visit_vs_random,
                 "incremental_visits_vs_best_simple": visit_vs_simple,
                 "conversions_per_1k": conv_abs,
                 "incremental_conversions_vs_no_email": conv_vs_none,

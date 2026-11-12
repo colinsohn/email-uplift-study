@@ -3,15 +3,16 @@
 ## Executive Summary & Decision Recommendation
 
 - **Decision Question**: Under a **25% contact budget**, which customers should receive an email, and which version (`Mens E-Mail` vs. `Womens E-Mail`) should they receive?
-- **Primary Outcome (2-Week Site Visits per 1,000 Eligible Customers on Held-Out Test Set, `N=16,000`)**:
-  - **Regularized Logistic T-Learner (`C=0.01`)**: **`129.75`** visits/1,000 (**`+23.62`** vs. No E-Mail, 95% CI `[+15.55, +31.70]`; **`+2.62`** vs. Simple Recency Rule, 95% CI `[-5.85, +11.10]`).
-  - **Flexible HistGBDT T-Learner (`max_depth=3, min_samples_leaf=200`)**: **`130.12`** visits/1,000 (**`+24.00`** vs. No E-Mail, 95% CI `[+16.13, +31.87]`; **`+3.00`** vs. Simple Recency Rule, 95% CI `[-5.94, +11.94]`).
-  - **Simple Recency Rule (Validation-Selected `mens_default`)**: **`127.12`** visits/1,000 (**`+21.00`** vs. No E-Mail, 95% CI `[+12.90, +29.10]`).
+- **Main Takeaway (`N_test = 16,000`)**: At a **25% contact budget**, the **Simple Recency Rule** added an estimated **`+21.00` visits per 1,000 eligible customers** versus sending no email (paired 95% CI `[+12.90, +29.10]`), and the held-out evidence was **inconclusive** about whether either model improved on that rule (`regularized_logistic` vs. recency rule: **`+2.62`** visits/1,000, paired 95% CI `[-5.85, +11.10]`, disagreeing on **`29.4%`** of customers; `flexible_hist_gbdt` vs. recency rule: **`+3.00`** visits/1,000, paired 95% CI `[-5.94, +11.94]`, disagreeing on **`33.4%`** of customers).
+- **Primary Outcome Summary (2-Week Site Visits per 1,000 Eligible Customers on Held-Out Test Set, `N=16,000`)**:
+  - **Simple Recency Rule (Validation-Selected `mens_default`)**: **`127.12`** visits/1,000 (**`+21.00`** vs. No E-Mail, 95% CI `[+12.90, +29.10]`; **`+6.38`** vs. Random Targeting, 95% CI `[-3.17, +15.92]`).
   - **Simple Recency + Category Match Rule**: **`125.06`** visits/1,000 (**`+18.94`** vs. No E-Mail, 95% CI `[+10.93, +26.94]`).
+  - **Regularized Logistic T-Learner (`C=0.01`)**: **`129.75`** visits/1,000 (**`+23.62`** vs. No E-Mail, 95% CI `[+15.55, +31.70]`; **`+2.62`** vs. Simple Recency Rule, 95% CI `[-5.85, +11.10]`; **`+9.00`** vs. Random Targeting, 95% CI `[-0.62, +18.62]`).
+  - **Flexible HistGBDT T-Learner (`max_depth=3, min_samples_leaf=200`)**: **`130.12`** visits/1,000 (**`+24.00`** vs. No E-Mail, 95% CI `[+16.13, +31.87]`; **`+3.00`** vs. Simple Recency Rule, 95% CI `[-5.94, +11.94]`; **`+9.38`** vs. Random Targeting, 95% CI `[-0.09, +18.84]`).
   - **Random Targeting (25% Budget)**: **`120.75`** visits/1,000 (**`+14.62`** vs. No E-Mail, 95% CI `[+7.45, +21.80]`).
-- **Recommendation When Model Advantage Over the Simple Rule Is Uncertain**:
-  - Both action-response models (`regularized_logistic` at `+23.62` and `flexible_hist_gbdt` at `+24.00` incremental visits/1,000) and the `simple_recency_rule` (`+21.00`) significantly outperform `no_email` and `random_targeting` (`+12.38`), but the paired 95% CIs against `simple_recency_rule` (`+2.62 [-5.85, +11.10]` and `+3.00 [-5.94, +11.94]`) span zero.
-  - **Operational Rule**: Ship the **Simple Recency Rule** (`recency <= 3` months prioritized by prior spend, sending `Mens E-Mail`) as the zero-infrastructure baseline, or score the 24-coefficient **L2-Regularized Logistic T-Learner** directly in SQL if batch scoring is already in place (it assigns `Mens E-Mail` to 18.6% of eligible customers — heavily targeting dual-category `mens=1 & womens=1` and `mens=1` buyers — and `Womens E-Mail` to 6.4% of eligible customers who bought exclusively women's merchandise). Do **not** deploy unconstrained flexible tree models (deeper trees overfit individual noise and lost `-9.9` visits/1,000 on validation). To resolve the `+2.6` to `+4.7` visits/1,000 gap between the regularized model and the recency heuristic with 80% power, run an online A/B test restricted to the **30.6% disagreement cohort** where the two policies prescribe different actions.
+- **Recommendation**:
+  - All active 25%-budget policies beat sending **No E-Mail** with 95% confidence intervals well above zero (`+14.62` for `random_targeting`, `+21.00` for `simple_recency_rule`, `+23.62` for `regularized_logistic`, and `+24.00` for `flexible_hist_gbdt`). However, direct paired 95% confidence intervals at the 25% budget do **not** establish a statistically significant advantage for any learned policy over `simple_recency_rule` (`+2.62 [-5.85, +11.10]` for `regularized_logistic`; `+3.00 [-5.94, +11.94]` for `flexible_hist_gbdt`), nor do the paired 95% CIs versus `random_targeting` exclude zero (`+6.38 [-3.17, +15.92]` for `simple_recency_rule`; `+9.00 [-0.62, +18.62]` for `regularized_logistic`).
+  - **Operational Decision**: **Recommend deploying the Simple Recency Rule** (contact the 25% most recent purchasers ordered by `recency` ascending and prior `history` spend descending, sending `Mens E-Mail`). It delivers `+21.00` incremental visits/1,000 (`[+12.90, +29.10]`) and `$+399.12` incremental spend/1,000 (`[$-14.82, $+813.05]`) vs. No E-Mail with zero ML scoring infrastructure. While `regularized_logistic` (`17.6%` `Mens E-Mail`, `7.4%` `Womens E-Mail`) has higher point estimates across budgets, that advantage is uncertain on held-out data; if the team wants to test it further, run an online A/B test restricted to the **`29.4%` disagreement cohort** where `regularized_logistic` and `simple_recency_rule` prescribe different actions.
 
 ---
 
@@ -48,14 +49,14 @@
 
 ### 2.1 Primary Outcome: 2-Week Site Visits per 1,000 Eligible Customers
 
-| Policy (25% Budget) | Contacted (%) | `% Mens` / `% Womens` | Total Visits / 1k (95% CI) | Incremental Visits / 1k vs. `No E-Mail` (Paired 95% CI) | Incremental Visits / 1k vs. `Simple Recency` (Paired 95% CI) |
-| --- | --- | --- | --- | --- | --- |
-| `no_email` | `0.0%` | `0.0% / 0.0%` | `106.12` (`[97.54, 114.71]`) | **`+0.00`** (`[+0.00, +0.00]`) | `-21.00` (`[-29.10, -12.90]`) |
-| `random_targeting` | `25.0%` | `12.4% / 12.6%` | `120.75` (`[111.61, 129.89]`) | **`+14.62`** (`[+7.45, +21.80]`) | `-6.38` (`[-15.92, +3.17]`) |
-| `simple_recency_rule` | `25.0%` | `25.0% / 0.0%` | `127.12` (`[117.76, 136.49]`) | **`+21.00`** (`[+12.90, +29.10]`) | `+0.00` (`[+0.00, +0.00]`) |
-| `recency_category_affinity` | `25.0%` | `14.4% / 10.6%` | `125.06` (`[115.77, 134.35]`) | **`+18.94`** (`[+10.93, +26.94]`) | `-2.06` (`[-7.62, +3.50]`) |
-| `regularized_logistic` | `25.0%` | `17.6% / 7.4%` | `129.75` (`[120.29, 139.21]`) | **`+23.62`** (`[+15.55, +31.70]`) | `+2.62` (`[-5.85, +11.10]`) |
-| `flexible_hist_gbdt` | `25.0%` | `19.7% / 5.3%` | `130.12` (`[120.66, 139.59]`) | **`+24.00`** (`[+16.13, +31.87]`) | `+3.00` (`[-5.94, +11.94]`) |
+| Policy (25% Budget) | Contacted (%) | `% Mens` / `% Womens` | Total Visits / 1k (95% CI) | Incremental Visits / 1k vs. `No E-Mail` (Paired 95% CI) | Incremental Visits / 1k vs. `Simple Recency` (Paired 95% CI) | Disagreement vs. `Simple Recency` |
+| --- | --- | --- | --- | --- | --- | --- |
+| `no_email` | `0.0%` | `0.0% / 0.0%` | `106.12` (`[97.54, 114.71]`) | **`+0.00`** (`[+0.00, +0.00]`) | `-21.00` (`[-29.10, -12.90]`) | `25.0%` |
+| `random_targeting` | `25.0%` | `12.4% / 12.6%` | `120.75` (`[111.61, 129.89]`) | **`+14.62`** (`[+7.45, +21.80]`) | `-6.38` (`[-15.92, +3.17]`) | `40.5%` |
+| `simple_recency_rule` | `25.0%` | `25.0% / 0.0%` | `127.12` (`[117.76, 136.49]`) | **`+21.00`** (`[+12.90, +29.10]`) | `+0.00` (`[+0.00, +0.00]`) | `0.0%` |
+| `recency_category_affinity` | `25.0%` | `14.4% / 10.6%` | `125.06` (`[115.77, 134.35]`) | **`+18.94`** (`[+10.93, +26.94]`) | `-2.06` (`[-7.62, +3.50]`) | `10.6%` |
+| `regularized_logistic` | `25.0%` | `17.6% / 7.4%` | `129.75` (`[120.29, 139.21]`) | **`+23.62`** (`[+15.55, +31.70]`) | `+2.62` (`[-5.85, +11.10]`) | `29.4%` |
+| `flexible_hist_gbdt` | `25.0%` | `19.7% / 5.3%` | `130.12` (`[120.66, 139.59]`) | **`+24.00`** (`[+16.13, +31.87]`) | `+3.00` (`[-5.94, +11.94]`) | `33.4%` |
 
 ### 2.2 Secondary Outcomes: Purchases (`conversion`) and Spend (`$`) per 1,000 Eligible Customers (25% Budget)
 

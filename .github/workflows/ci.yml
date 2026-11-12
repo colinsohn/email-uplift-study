@@ -6,14 +6,22 @@ on:
   pull_request:
 
 jobs:
-  test:
+  test-and-reproduce:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Download verified Hillstrom CSV and verify SHA-256
+        run: |
+          curl -fsSL "https://github.com/W-Tran/uplift-modelling/raw/master/data/hillstrom/Kevin_Hillstrom_MineThatData_E-MailAnalytics_DataMiningChallenge_2008.03.20.csv" -o data/hillstrom-email-experiment.csv
+          echo "27bab8c5d3669f26ec08ebb50a0a78317542f29501156f2e2af6781fab4cd7e2  data/hillstrom-email-experiment.csv" | sha256sum -c -
       - name: Install package and test dependencies
         run: pip install -e ".[dev]"
-      - name: Run unit, leakage, budget, DuckDB audit, and IPW estimator tests
+      - name: Run full study CLI and verify regenerated report matches JSON
+        run: |
+          python -m email_uplift_study.cli
+          git diff --exit-code results/
+      - name: Run unit, leakage, budget, DuckDB audit, IPW estimator, and report parity tests
         run: pytest -v

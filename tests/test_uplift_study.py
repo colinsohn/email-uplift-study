@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import numpy as np
 import pandas as pd
 import pytest
 
+from email_uplift_study.cli import render_markdown_summary
 from email_uplift_study.pipeline import (
     EXPECTED_SHA256,
     FORBIDDEN_FEATURE_COLUMNS,
@@ -23,10 +25,12 @@ from email_uplift_study.pipeline import (
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CSV_PATH = REPO_ROOT / "data" / "hillstrom-email-experiment.csv"
 SQL_PATH = REPO_ROOT / "sql" / "experiment_audit.sql"
+RESULTS_JSON_PATH = REPO_ROOT / "results" / "study_results.json"
+REPORT_MD_PATH = REPO_ROOT / "results" / "study_report.md"
 
 
 def _build_synthetic_hillstrom_csv(path: Path, n_rows: int = 6000, seed: int = 42) -> None:
-    """Create a deterministic Hillstrom-schema CSV when the gitignored raw CSV is absent in CI."""
+    """Create a deterministic Hillstrom-schema CSV when the gitignored raw CSV is absent."""
     rng = np.random.default_rng(seed)
     segments = np.tile(["Mens E-Mail", "Womens E-Mail", "No E-Mail"], n_rows // 3)
     rng.shuffle(segments)
@@ -148,14 +152,6 @@ def test_contact_budget_enforcement(tmp_path: Path) -> None:
 
 
 def test_ipw_estimator_on_toy_experiment_with_known_effect() -> None:
-    # Part A: Exact finite-sample expectation check on a balanced 3-arm toy design.
-    # Suppose 4 customer strata (25% each). Only Stratum 0 has a known +0.40 visit lift
-    # from 'Mens E-Mail' (0.50 vs 0.10 control); Strata 1..3 have 0.10 visit rate under all arms.
-    # A 25%-budget policy that contacts Stratum 0 with 'Mens E-Mail' and leaves Strata 1..3
-    # in 'No E-Mail' has an exact known ground-truth policy value of:
-    #   V(policy) = 0.25 * 0.50 + 0.75 * 0.10 = 0.200 (200.0 visits per 1,000 customers)
-    #   V(no_email) = 0.100 (100.0 visits per 1,000 customers)
-    #   True incremental lift vs No E-Mail = +100.0 visits per 1,000 customers.
     rows = []
     for stratum in range(4):
         for arm in ("No E-Mail", "Mens E-Mail", "Womens E-Mail"):
@@ -185,19 +181,17 @@ def test_ipw_estimator_on_toy_experiment_with_known_effect() -> None:
     assert np.isclose(paired["diff"], 100.0, atol=1e-9)
     assert paired["ci95_low"] > 0.0
 
-    # Part B: Seeded stochastic RCT with asymmetric documented assignment probabilities
     rng = np.random.default_rng(12345)
     n_sim = 12000
     asym_probs = {"No E-Mail": 0.50, "Mens E-Mail": 0.25, "Womens E-Mail": 0.25}
     is_target = np.zeros(n_sim, dtype=int)
-    is_target[: int(0.25 * n_sim)] = 1  # exact 25% targetable segment
+    is_target[: int(0.25 * n_sim)] = 1
 
     arms = rng.choice(
         ["No E-Mail", "Mens E-Mail", "Womens E-Mail"],
         size=n_sim,
         p=[asym_probs["No E-Mail"], asym_probs["Mens E-Mail"], asym_probs["Womens E-Mail"]],
     )
-    # True baseline = 0.12; target segment gets +0.32 lift under Mens E-Mail -> 25% * 320 = +80.0 per 1,000
     true_p = np.where((is_target == 1) & (arms == "Mens E-Mail"), 0.44, 0.12)
     visits = rng.binomial(1, true_p)
     sim_df = pd.DataFrame({"segment": arms, "visit": visits})
@@ -237,3 +231,16 @@ def test_duckdb_audit_and_dataset_checksum(tmp_path: Path) -> None:
     ate_by_arm = {r["comparison_arm"]: r for r in audit["experiment_ate_summary"]}
     assert ate_by_arm["Mens E-Mail"]["ate_visits_ci95_low"] > 20.0
     assert ate_by_arm["Womens E-Mail"]["ate_visits_ci95_low"] > 10.0
+
+
+def test_report_generator_matches_study_results_json() -> None:
+    results = json.loads(RESULTS_JSON_PATH.read_text(encoding="utf-8"))
+    rendered = render_markdown_summary(results)
+    saved_report = REPORT_MD_PATH.read_text(encoding="utf-8")
+
+    assert rendered == saved_report
+    assert "+14.62" in rendered
+    assert "+21.00" in rendered
+    assert "29.4%" in rendered
+    assert "+12.38" not in rendered
+    assert "30.6%" not in rendered

@@ -406,6 +406,13 @@
         "ci95_high": 0.0,
         "disagreement_rate": 0.0
       },
+      "incremental_visits_vs_random": {
+        "diff": -14.625,
+        "se": 3.6629438854979433,
+        "ci95_low": -21.804238092967175,
+        "ci95_high": -7.445761907032824,
+        "disagreement_rate": 0.25
+      },
       "incremental_visits_vs_best_simple": {
         "diff": -21.0,
         "se": 4.130307641698853,
@@ -480,6 +487,13 @@
         "ci95_low": 7.445761907032824,
         "ci95_high": 21.804238092967175,
         "disagreement_rate": 0.25
+      },
+      "incremental_visits_vs_random": {
+        "diff": 0.0,
+        "se": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "disagreement_rate": 0.0
       },
       "incremental_visits_vs_best_simple": {
         "diff": -6.375,
@@ -556,6 +570,13 @@
         "ci95_high": 29.09525422280032,
         "disagreement_rate": 0.25
       },
+      "incremental_visits_vs_random": {
+        "diff": 6.375,
+        "se": 4.867674326798372,
+        "ci95_low": -3.1654663689950624,
+        "ci95_high": 15.915466368995062,
+        "disagreement_rate": 0.4054375
+      },
       "incremental_visits_vs_best_simple": {
         "diff": 0.0,
         "se": 0.0,
@@ -630,6 +651,13 @@
         "ci95_low": 10.933297245584527,
         "ci95_high": 26.941702754415473,
         "disagreement_rate": 0.25
+      },
+      "incremental_visits_vs_random": {
+        "diff": 4.3125,
+        "se": 4.89302976235076,
+        "ci95_low": -5.277662109490068,
+        "ci95_high": 13.902662109490068,
+        "disagreement_rate": 0.40425
       },
       "incremental_visits_vs_best_simple": {
         "diff": -2.0625,
@@ -706,6 +734,13 @@
         "ci95_high": 31.701812198363633,
         "disagreement_rate": 0.25
       },
+      "incremental_visits_vs_random": {
+        "diff": 9.0,
+        "se": 4.9105633181954165,
+        "ci95_low": -0.6245272474665171,
+        "ci95_high": 18.624527247466517,
+        "disagreement_rate": 0.4063125
+      },
       "incremental_visits_vs_best_simple": {
         "diff": 2.625,
         "se": 4.324796333631847,
@@ -780,6 +815,13 @@
         "ci95_low": 16.12667962853522,
         "ci95_high": 31.87332037146478,
         "disagreement_rate": 0.25
+      },
+      "incremental_visits_vs_random": {
+        "diff": 9.375,
+        "se": 4.831119494295345,
+        "ci95_low": -0.09382021382823602,
+        "ci95_high": 18.843820213828238,
+        "disagreement_rate": 0.405125
       },
       "incremental_visits_vs_best_simple": {
         "diff": 3.0,
